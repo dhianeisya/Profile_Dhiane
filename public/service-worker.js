@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dhiane-profile-cache-v1';
+const CACHE_NAME = 'dhiane-profile-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -43,26 +43,49 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || event.request.url.includes('/api/')) {
     return;
   }
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cache match, or fetch and cache the new resource
-        return response || fetch(event.request).then(fetchRes => {
+
+  const isHtml = event.request.url.endsWith('/') || 
+                 event.request.url.endsWith('/index.html') || 
+                 event.request.mode === 'navigate';
+
+  if (isHtml) {
+    // Network First Strategy for HTML/Navigation to prevent cached index.html from serving deleted old assets
+    event.respondWith(
+      fetch(event.request)
+        .then(fetchRes => {
           return caches.open(CACHE_NAME).then(cache => {
-            // Ignore temporary chrome extension or browser sync resources
             if (event.request.url.startsWith('http')) {
               cache.put(event.request.url, fetchRes.clone());
             }
             return fetchRes;
           });
-        });
-      }).catch(() => {
-        if (event.request.mode === 'navigate') {
+        })
+        .catch(() => {
           return caches.match('/index.html');
-        }
-      })
-  );
+        })
+    );
+  } else {
+    // Cache First Strategy for static assets (images, fonts, bundles with hashes)
+    event.respondWith(
+      caches.match(event.request)
+        .then(response => {
+          return response || fetch(event.request).then(fetchRes => {
+            return caches.open(CACHE_NAME).then(cache => {
+              if (event.request.url.startsWith('http')) {
+                cache.put(event.request.url, fetchRes.clone());
+              }
+              return fetchRes;
+            });
+          });
+        }).catch(() => {
+          if (event.request.mode === 'navigate') {
+            return caches.match('/index.html');
+          }
+        })
+    );
+  }
 });
+
 
 // Push Notification Event
 self.addEventListener('push', event => {

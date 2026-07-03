@@ -57,7 +57,7 @@ export default function Navbar() {
         {loggedIn ? (
           <Link to="/dashboard" id="cms-link" style={{ marginRight: '15px' }}>CMS</Link>
         ) : (
-          <Link to="/login" id="cms-link" style={{ marginRight: '15px' }}>Login</Link>
+          <Link to="/login" id="cms-link" style={{ marginRight: '15px' }}>Login CMS</Link>
         )}
         <button id="theme-btn" onClick={toggleTheme} aria-label="Toggle theme">
           {theme === 'dark' ? '☀️' : '🌙'}
