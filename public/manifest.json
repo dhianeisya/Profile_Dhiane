@@ -1,0 +1,21 @@
+{
+  "short_name": "Dhiane Profile",
+  "name": "Dhiane Isya Na'imah Profile",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#1e3a8a",
+  "theme_color": "#1e3a8a",
+  "display": "standalone",
+  "orientation": "portrait"
+}
