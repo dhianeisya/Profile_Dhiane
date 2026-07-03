@@ -920,7 +920,8 @@ body.dark .cms-sidebar {
     margin-bottom: 5px;
 }
 
-.cms-menu a {
+.cms-menu a,
+.cms-menu span {
     display: block;
     padding: 12px 15px;
     color: #333;
@@ -929,15 +930,19 @@ body.dark .cms-sidebar {
     transition: 0.3s;
 }
 
-body.dark .cms-menu a {
+body.dark .cms-menu a,
+body.dark .cms-menu span {
     color: #eee;
 }
 
 .cms-menu a:hover,
-.cms-menu a.active {
+.cms-menu span:hover,
+.cms-menu a.active,
+.cms-menu span.active {
     background: #2ea3c9;
     color: white;
 }
+
 
 .cms-content {
     background: white;
@@ -1483,13 +1488,65 @@ body.dark .blog-card-footer {
 @media (max-width: 768px) {
     .cms-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .cms-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .cms-header h1 {
+        font-size: 20px;
+    }
+
+    .cms-nav {
+        justify-content: center;
+    }
+
+    .cms-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .cms-menu li {
+        margin-bottom: 0;
+        flex: 1 1 calc(50% - 8px); /* 2 columns for menu items */
+    }
+
+    .cms-menu a,
+    .cms-menu span {
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
     }
 
     .form-row {
         grid-template-columns: 1fr;
+        gap: 10px;
     }
 
     .stats-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
     }
-}
+
+    .stat-card {
+        padding: 15px 10px;
+    }
+
+    .stat-number {
+        font-size: 24px;
+    }
+
+    .login-box {
+        padding: 30px 20px;
+    }
+    
+    .cms-container {
+        padding: 10px;
+    }
+}
